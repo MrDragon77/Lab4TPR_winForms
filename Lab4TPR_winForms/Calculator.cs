@@ -6,12 +6,10 @@ using System.Xml;
 class Calculator
 {
     public DataSet DS;
-    int iterations;
 
-    public Calculator(DataSet newDS, int iter)
+    public Calculator(DataSet newDS)
     {
         DS = newDS;
-        iterations = iter;
     }
 
     public void ChangeDS(DataSet new_DS)
@@ -19,63 +17,85 @@ class Calculator
         DS = new_DS;
     }
 
-    public void ChangeIterations(int new_iters)
-    {
-        iterations = new_iters;
+    double Calculate_r(List<double> P_k, string s_table) 
+    { 
+        double r = 0;
+        for(int i =0; i <P_k.Count; i++)
+        {
+            r += P_k[i] * Convert.ToDouble(DS.Tables[s_table].Rows[i][1]);
+        }
+        return r;
     }
 
-    public DataTable Calculate()
+    public double Calculate_Pk(int k_num, string i_table, string p_table, string s_ip_table, string s_pk_table)
     {
-        int conditions = DS.Tables["s" + 1.ToString()].Rows.Count;
-        DataTable results = new DataTable();
-        results.Clear();
-        for (int i = 0 ; i < iterations; i++)
-        {
-            results.Columns.Add((i+1).ToString());
-        }
-        for (int i = 0; i < conditions * 2; i++)
-        {
-            DataRow row = results.NewRow();
-            for(int j = 0; j < iterations; j++)
-            {
-                row[j] = 0;
-            }
-            results.Rows.Add(row);
-        }
-        for (int n = 0; n < iterations; n++)
-        {
-            double sum = 0;
-            int cur_strat = 1;
-            while (DS.Tables["s" + cur_strat.ToString()] != null)
-            {
-                DataTable s = DS.Tables["s" + cur_strat.ToString()];
-                DataTable d = DS.Tables["d" + cur_strat.ToString()];
 
-                for (int j = 0; j < conditions; j++)
+        int i_events = DS.Tables[i_table].Rows.Count;
+        int p_events = DS.Tables[p_table].Columns.Count;
+
+        DataTable probs = new DataTable();
+        probs.Clear();
+
+        for (int i = 0; i < p_events; i++)
+        {
+            probs.Columns.Add(i.ToString());
+        }
+        for (int i = 0; i < i_events; i++)
+        {
+            probs.Rows.Add(i.ToString());
+        }
+
+
+
+        for (int i = 0; i < p_events; i++)
+        {
+            for (int j = 0; j < i_events; j++)
+            {
+                probs.Rows[i][j] = 0;
+            }
+        }
+        for (int j = 0; j < p_events; j++)
+        {
+            if (Convert.ToInt32(DS.Tables[s_pk_table].Rows[k_num][j]) == 1)
+            {
+                for (int i = 0; i < i_events; i++)
                 {
-                    sum = 0;
-                    for (int i = 0; i < conditions; i++)
+                    if (Convert.ToInt32(DS.Tables[s_ip_table].Rows[j][i]) == 1)
                     {
-                        sum += Convert.ToDouble(s.Rows[j][i]) * Convert.ToDouble(d.Rows[j][i]); //тут мы из состояния j смотрим сумму вероятностей, умноженных на прибыль каждого схода
-                        Console.WriteLine(s.Rows[j][i]);
-                        Console.WriteLine(d.Rows[j][i]);
-                    }
-                    if (n > 0)
-                    {
-                        for (int i = 0; i < conditions; i++)
-                        {
-                            sum += Convert.ToDouble(results.Rows[i][n - 1]) * Convert.ToDouble(s.Rows[j][i]); //добавляем к ожидаемой прибыли максимальные прибыли с прошлых итераций и умножаем их на вероятности текущей стратегии (я час сидел и так и не понял, почему именно так, спасите, XDXDXD, ну сдали и Бог с ним
-                        }
-                    }
-                    if (sum > Convert.ToDouble(results.Rows[j][n]))
-                    {
-                        results.Rows[j][n] = sum;   // если это максимально прибыльный вариант, то вписываем его и номер стратегии
-                        results.Rows[j + conditions][n] = cur_strat;
+                        probs.Rows[j][i] = Convert.ToDouble(DS.Tables[i_table].Rows[i][1]);
                     }
                 }
-                cur_strat++;
             }
         }
-        return results;
+
+        List<double> temp = new List<double>();
+        List<double> p_probs = RecurP(0, probs, temp, 1);
+        double product = 1;
+        double result = 1;
+
+        for (int i = 0; i < p_probs.Count; i++)
+        {
+            product *= (1 - p_probs[i]);  
+        }
+        result -= product;
+        return result;
+    }
+
+    List<double> RecurP(int cur_p, DataTable probs, List<double> result, double product)
+    {
+        if(cur_p >= probs.Rows.Count)
+        {
+            result.Add(product);
+            return result;
+        }
+        for (int j = 0; j < probs.Rows.Count; j++)
+        {
+            if (Convert.ToDouble(probs.Rows[j][cur_p]) != 0)
+            {
+                product *= Convert.ToDouble(probs.Rows[cur_p][j]);
+                result = RecurP(cur_p + 1, probs, result, product);
+            }
+        }
+        return result;
     }
 }

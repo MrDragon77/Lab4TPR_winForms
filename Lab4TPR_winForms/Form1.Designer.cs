@@ -37,14 +37,12 @@
             button_SaveToFile = new Button();
             textBox_saveName = new TextBox();
             nud_StepNum = new NumericUpDown();
-            nud_strategyNum2 = new NumericUpDown();
-            nud_strategyNum1 = new NumericUpDown();
+            nud_conditionNum = new NumericUpDown();
+            nud_resourceNum = new NumericUpDown();
             button_EditForm4 = new Button();
-            label1 = new Label();
-            textBox_accuracy = new TextBox();
             ((System.ComponentModel.ISupportInitialize)nud_StepNum).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nud_strategyNum2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nud_strategyNum1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nud_conditionNum).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nud_resourceNum).BeginInit();
             SuspendLayout();
             // 
             // label_
@@ -52,13 +50,14 @@
             label_.AutoSize = true;
             label_.Location = new Point(19, 36);
             label_.Name = "label_";
-            label_.Size = new Size(179, 15);
+            label_.Size = new Size(126, 15);
             label_.TabIndex = 0;
-            label_.Text = "Количество стратегий 1 игрока";
+            label_.Text = "Количество ресурсов";
+            label_.Visible = false;
             // 
             // button_StartModelling
             // 
-            button_StartModelling.Location = new Point(462, 220);
+            button_StartModelling.Location = new Point(459, 182);
             button_StartModelling.Margin = new Padding(3, 2, 3, 2);
             button_StartModelling.Name = "button_StartModelling";
             button_StartModelling.Size = new Size(189, 33);
@@ -70,29 +69,31 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(19, 71);
+            label2.Location = new Point(12, 342);
             label2.Name = "label2";
-            label2.Size = new Size(179, 15);
+            label2.Size = new Size(133, 15);
             label2.TabIndex = 3;
-            label2.Text = "Количество стратегий 2 игрока";
+            label2.Text = "Количество состояний";
+            label2.Visible = false;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(19, 238);
+            label3.Location = new Point(12, 382);
             label3.Name = "label3";
-            label3.Size = new Size(127, 15);
+            label3.Size = new Size(201, 15);
             label3.TabIndex = 5;
-            label3.Text = "Количество итераций";
+            label3.Text = "Количество шагов моделирования";
+            label3.Visible = false;
             // 
             // button_EditForm2
             // 
-            button_EditForm2.Location = new Point(29, 118);
+            button_EditForm2.Location = new Point(29, 104);
             button_EditForm2.Margin = new Padding(3, 2, 3, 2);
             button_EditForm2.Name = "button_EditForm2";
-            button_EditForm2.Size = new Size(257, 35);
+            button_EditForm2.Size = new Size(290, 35);
             button_EditForm2.TabIndex = 7;
-            button_EditForm2.Text = "Редактировать платежную матрицу";
+            button_EditForm2.Text = "Редактировать списки альтернатив и критериев";
             button_EditForm2.UseVisualStyleBackColor = true;
             button_EditForm2.Click += buttonEditForm2_Click;
             // 
@@ -128,72 +129,56 @@
             // 
             // nud_StepNum
             // 
-            nud_StepNum.Location = new Point(180, 236);
+            nud_StepNum.Location = new Point(234, 382);
             nud_StepNum.Margin = new Padding(3, 2, 3, 2);
             nud_StepNum.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nud_StepNum.Name = "nud_StepNum";
             nud_StepNum.Size = new Size(85, 23);
             nud_StepNum.TabIndex = 11;
             nud_StepNum.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nud_StepNum.Visible = false;
             // 
-            // nud_strategyNum2
+            // nud_conditionNum
             // 
-            nud_strategyNum2.Location = new Point(204, 69);
-            nud_strategyNum2.Margin = new Padding(3, 2, 3, 2);
-            nud_strategyNum2.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            nud_strategyNum2.Name = "nud_strategyNum2";
-            nud_strategyNum2.Size = new Size(85, 23);
-            nud_strategyNum2.TabIndex = 12;
-            nud_strategyNum2.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nud_conditionNum.Location = new Point(166, 342);
+            nud_conditionNum.Margin = new Padding(3, 2, 3, 2);
+            nud_conditionNum.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nud_conditionNum.Name = "nud_conditionNum";
+            nud_conditionNum.Size = new Size(85, 23);
+            nud_conditionNum.TabIndex = 12;
+            nud_conditionNum.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nud_conditionNum.Visible = false;
             // 
-            // nud_strategyNum1
+            // nud_resourceNum
             // 
-            nud_strategyNum1.Location = new Point(204, 34);
-            nud_strategyNum1.Margin = new Padding(3, 2, 3, 2);
-            nud_strategyNum1.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            nud_strategyNum1.Name = "nud_strategyNum1";
-            nud_strategyNum1.Size = new Size(85, 23);
-            nud_strategyNum1.TabIndex = 13;
-            nud_strategyNum1.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nud_resourceNum.Location = new Point(166, 34);
+            nud_resourceNum.Margin = new Padding(3, 2, 3, 2);
+            nud_resourceNum.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nud_resourceNum.Name = "nud_resourceNum";
+            nud_resourceNum.Size = new Size(85, 23);
+            nud_resourceNum.TabIndex = 13;
+            nud_resourceNum.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nud_resourceNum.Visible = false;
             // 
             // button_EditForm4
             // 
-            button_EditForm4.Location = new Point(12, 391);
+            button_EditForm4.Location = new Point(29, 167);
             button_EditForm4.Margin = new Padding(3, 2, 3, 2);
             button_EditForm4.Name = "button_EditForm4";
-            button_EditForm4.Size = new Size(257, 35);
+            button_EditForm4.Size = new Size(290, 35);
             button_EditForm4.TabIndex = 14;
-            button_EditForm4.Text = "Редактировать связи событий";
+            button_EditForm4.Text = "Редактировать связи альтернатив и критериев";
             button_EditForm4.UseVisualStyleBackColor = true;
-            button_EditForm4.Visible = false;
             button_EditForm4.Click += button_EditForm4_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(19, 192);
-            label1.Name = "label1";
-            label1.Size = new Size(111, 15);
-            label1.TabIndex = 15;
-            label1.Text = "Заданная точность";
-            // 
-            // textBox_accuracy
-            // 
-            textBox_accuracy.Location = new Point(180, 189);
-            textBox_accuracy.Name = "textBox_accuracy";
-            textBox_accuracy.Size = new Size(100, 23);
-            textBox_accuracy.TabIndex = 16;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(764, 428);
-            Controls.Add(textBox_accuracy);
-            Controls.Add(label1);
             Controls.Add(button_EditForm4);
-            Controls.Add(nud_strategyNum1);
-            Controls.Add(nud_strategyNum2);
+            Controls.Add(nud_resourceNum);
+            Controls.Add(nud_conditionNum);
             Controls.Add(nud_StepNum);
             Controls.Add(textBox_saveName);
             Controls.Add(button_SaveToFile);
@@ -208,8 +193,8 @@
             Text = "Ввод параметров модуляции";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)nud_StepNum).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nud_strategyNum2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nud_strategyNum1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nud_conditionNum).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nud_resourceNum).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -225,10 +210,8 @@
         private Button button_SaveToFile;
         private TextBox textBox_saveName;
         private NumericUpDown nud_StepNum;
-        private NumericUpDown nud_strategyNum2;
-        private NumericUpDown nud_strategyNum1;
+        private NumericUpDown nud_conditionNum;
+        private NumericUpDown nud_resourceNum;
         private Button button_EditForm4;
-        private Label label1;
-        private TextBox textBox_accuracy;
     }
 }

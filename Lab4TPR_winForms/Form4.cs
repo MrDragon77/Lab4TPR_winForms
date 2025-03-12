@@ -10,7 +10,6 @@ using System.Windows.Forms;
 
 namespace Lab4TPR_winForms
 {
-    //НЕ ИСПОЛЬЗУЕТСЯ В 3 ЛАБЕ
     //Form4 - форма для ввода сложных параметров
     //конкретно в этой вводятся связи между состояниями в две таблицы
     public partial class Form4 : Form
@@ -31,16 +30,13 @@ namespace Lab4TPR_winForms
 
         private void Form4_Load(object sender, EventArgs e)
         {
-            //dataGridView_table_S_IP.DataSource = datasetTemp.Tables[tablesNames.table_S_IP + "1"];
-            //dataGridView_table_S_PK.DataSource = datasetTemp.Tables[tablesNames.table_S_PK + "1"];
+            dataGridView_table_S_IP.DataSource = datasetTemp.Tables[tablesNames.table_S_AK];
         }
 
         private void numericUpDown_tableID_ValueChanged(object sender, EventArgs e)
         {
-            //dataGridView_table_S_IP.DataSource = datasetTemp.Tables[tablesNames.table_S_IP + numericUpDown_tableID.Value.ToString()];
-            //dataGridView_table_S_PK.DataSource = datasetTemp.Tables[tablesNames.table_S_PK + numericUpDown_tableID.Value.ToString()];
+            dataGridView_table_S_IP.DataSource = datasetTemp.Tables[tablesNames.table_S_AK];
             dataGridView_table_S_IP.Update();
-            dataGridView_table_S_PK.Update();
         }
 
         private void button_SaveChanges_Click(object sender, EventArgs e)
@@ -54,32 +50,15 @@ namespace Lab4TPR_winForms
             dataGridView_table_S_IP.Update();
         }
 
-        private void dataGridView_table_S_PK_SelectionChanged(object sender, EventArgs e)
-        {
-            dataGridView_table_S_PK.Update();
-        }
-
         private void dataGridView_table_S_IP_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             for (int i = 0; i < dataGridView_table_S_IP.ColumnCount; i++)
             {
-                dataGridView_table_S_IP.Columns[i].HeaderText = "П" + (i + 1).ToString();
+                dataGridView_table_S_IP.Columns[i].HeaderText = "f" + (i + 1).ToString();
             }
             for (int i = 0; i < dataGridView_table_S_IP.Rows.Count; i++)
             {
-                dataGridView_table_S_IP.Rows[i].HeaderCell.Value = "И" + (i + 1).ToString();
-            }
-        }
-
-        private void dataGridView_table_S_PK_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            for (int i = 0; i < dataGridView_table_S_PK.ColumnCount; i++)
-            {
-                dataGridView_table_S_PK.Columns[i].HeaderText = "К" + (i + 1).ToString();
-            }
-            for (int i = 0; i < dataGridView_table_S_PK.Rows.Count; i++)
-            {
-                dataGridView_table_S_PK.Rows[i].HeaderCell.Value = "П" + (i + 1).ToString();
+                dataGridView_table_S_IP.Rows[i].HeaderCell.Value = "a" + (i + 1).ToString();
             }
         }
     }
