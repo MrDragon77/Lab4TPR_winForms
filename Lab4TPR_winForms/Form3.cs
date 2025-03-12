@@ -30,14 +30,6 @@ namespace Lab4TPR_winForms
             this.datasetResult = dataset;
             curPhase = 1;
 
-            int tableID_maximum = 0;
-            while (datasetResult.Tables.Contains("phase1_" + (tableID_maximum + 1).ToString()))
-            {
-                tableID_maximum++;
-            }
-            numericUpDown_tableID.Maximum = tableID_maximum;
-            numericUpDown_tableID.Minimum = 1;
-
             int phaseID_maximum = 0;
             while (datasetResult.Tables.Contains("phase" + (phaseID_maximum + 1).ToString() + "_1"))
             {
@@ -45,6 +37,19 @@ namespace Lab4TPR_winForms
             }
             numericUpDown_phaseID.Maximum = phaseID_maximum;
             numericUpDown_phaseID.Minimum = 1;
+
+            Change_NumericUpDown_tableID_Maximum();
+        }
+
+        public void Change_NumericUpDown_tableID_Maximum()
+        {
+            int tableID_maximum = 0;
+            while (datasetResult.Tables.Contains("phase" + curPhase.ToString() + "_" + (tableID_maximum + 1).ToString()))
+            {
+                tableID_maximum++;
+            }
+            numericUpDown_tableID.Maximum = tableID_maximum;
+            numericUpDown_tableID.Minimum = 1;
         }
 
 
@@ -61,6 +66,7 @@ namespace Lab4TPR_winForms
         private void numericUpDown_phaseID_ValueChanged(object sender, EventArgs e)
         {
             curPhase = Convert.ToInt32(numericUpDown_phaseID.Value);
+            Change_NumericUpDown_tableID_Maximum();
             numericUpDown_tableID_ValueChanged(sender, e);
         }
     }
