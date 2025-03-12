@@ -5,97 +5,56 @@ using System.Xml;
 
 class Calculator
 {
-    public DataSet DS;
+    public DataSet DS; //original dataset of our data
 
+    public Calculator()
+    {
+        DS = new DataSet();
+    }
     public Calculator(DataSet newDS)
     {
-        DS = newDS;
+        this.DS = newDS;
     }
 
-    public void ChangeDS(DataSet new_DS)
+    public DataSet Calculate()
     {
-        DS = new_DS;
-    }
+        String table_A = "A";
+        String table_K = "K";
+        String table_S_AK = "S_AK";
+        String table_phase1 = "phase1_";
+        DataSet datasetResult = new DataSet();
 
-    double Calculate_r(List<double> P_k, string s_table) 
-    { 
-        double r = 0;
-        for(int i =0; i <P_k.Count; i++)
+        //phase 1
+        //result tables - [a.rows.count, a.rows.count]
+        //num of result tables - k.rows.count
+
+        DataTable S_AK = DS.Tables[table_S_AK];
+        int A_num = DS.Tables["A"].Rows.Count;
+        int K_num = DS.Tables["K"].Rows.Count;
+
+        for(int i = 0; i < K_num; i++)
         {
-            r += P_k[i] * Convert.ToDouble(DS.Tables[s_table].Rows[i][1]);
-        }
-        return r;
-    }
-
-    public double Calculate_Pk(int k_num, string i_table, string p_table, string s_ip_table, string s_pk_table)
-    {
-
-        int i_events = DS.Tables[i_table].Rows.Count;
-        int p_events = DS.Tables[p_table].Columns.Count;
-
-        DataTable probs = new DataTable();
-        probs.Clear();
-
-        for (int i = 0; i < p_events; i++)
-        {
-            probs.Columns.Add(i.ToString());
-        }
-        for (int i = 0; i < i_events; i++)
-        {
-            probs.Rows.Add(i.ToString());
-        }
-
-
-
-        for (int i = 0; i < p_events; i++)
-        {
-            for (int j = 0; j < i_events; j++)
+            DataTable cur_table_phase1 = new DataTable(table_phase1 + (i+1).ToString());
+            for(int j = 0; j < A_num; j++)
             {
-                probs.Rows[i][j] = 0;
+                cur_table_phase1.Columns.Add();
             }
-        }
-        for (int j = 0; j < p_events; j++)
-        {
-            if (Convert.ToInt32(DS.Tables[s_pk_table].Rows[k_num][j]) == 1)
+            for (int j = 0; j < A_num; j++)
             {
-                for (int i = 0; i < i_events; i++)
+                cur_table_phase1.Rows.Add();
+            }
+            for (int j = 0; j < A_num; j++)
+            {
+                for (int k = 0; k < A_num; k++)
                 {
-                    if (Convert.ToInt32(DS.Tables[s_ip_table].Rows[j][i]) == 1)
-                    {
-                        probs.Rows[j][i] = Convert.ToDouble(DS.Tables[i_table].Rows[i][1]);
-                    }
+                    cur_table_phase1.Rows[j][k] = (Convert.ToDouble(S_AK.Rows[j][i]) - Convert.ToDouble(S_AK.Rows[k][i])).ToString();
                 }
             }
+            datasetResult.Tables.Add(cur_table_phase1);
         }
 
-        List<double> temp = new List<double>();
-        List<double> p_probs = RecurP(0, probs, temp, 1);
-        double product = 1;
-        double result = 1;
 
-        for (int i = 0; i < p_probs.Count; i++)
-        {
-            product *= (1 - p_probs[i]);  
-        }
-        result -= product;
-        return result;
-    }
-
-    List<double> RecurP(int cur_p, DataTable probs, List<double> result, double product)
-    {
-        if(cur_p >= probs.Rows.Count)
-        {
-            result.Add(product);
-            return result;
-        }
-        for (int j = 0; j < probs.Rows.Count; j++)
-        {
-            if (Convert.ToDouble(probs.Rows[j][cur_p]) != 0)
-            {
-                product *= Convert.ToDouble(probs.Rows[cur_p][j]);
-                result = RecurP(cur_p + 1, probs, result, product);
-            }
-        }
-        return result;
+        //phase 2
+        return datasetResult;
     }
 }

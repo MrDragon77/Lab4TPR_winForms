@@ -15,7 +15,7 @@ namespace Lab4TPR_winForms
         {
             InitializeComponent();
             dataset = new DataSet();
-            calculator = new Calculator(dataset);
+            calculator = new Calculator();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -113,11 +113,11 @@ namespace Lab4TPR_winForms
 
         private void button_StartModelling_Click(object sender, EventArgs e)
         {
-            calculator.ChangeDS(dataset);
-            // DataTable result = calculator.Calculate();
-            // using (Form3 form3 = new Form3(result))
+            calculator = new Calculator(dataset);
+            DataSet result = calculator.Calculate();
+            using (Form3 form3 = new Form3(result))
             {
-                // form3.ShowDialog();
+                form3.ShowDialog();
             }
         }
 

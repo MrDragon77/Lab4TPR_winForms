@@ -56,9 +56,9 @@
             label_table_S_PI.AutoSize = true;
             label_table_S_PI.Location = new Point(52, 35);
             label_table_S_PI.Name = "label_table_S_PI";
-            label_table_S_PI.Size = new Size(400, 15);
+            label_table_S_PI.Size = new Size(233, 15);
             label_table_S_PI.TabIndex = 3;
-            label_table_S_PI.Text = "Таблица связей Промежуточных событий от Инициирующих событий";
+            label_table_S_PI.Text = "Таблица связей альтернатив и критериев";
             // 
             // numericUpDown_tableID
             // 
@@ -86,7 +86,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(885, 546);
+            ClientSize = new Size(885, 631);
             Controls.Add(button_SaveChanges);
             Controls.Add(numericUpDown_tableID);
             Controls.Add(label_table_S_PI);
