@@ -39,7 +39,11 @@ namespace Lab4TPR_winForms
                 A.Rows.Add();
                 dataset.Tables.Add(A);
                 DataTable K = new DataTable(tablesNames.table_K); //таблица критериев
-                K.Columns.Add("Название"); //колонка 1 для названия 
+                K.Columns.Add("Название"); //колонка 1 
+                K.Columns.Add("Вес критерия"); //колонка 2
+                K.Columns.Add("Функция отображения"); //колонка 3
+                K.Columns.Add("q"); //колонка 4
+                K.Columns.Add("s"); //колонка 5
                 K.Rows.Add();
                 dataset.Tables.Add(K);
                

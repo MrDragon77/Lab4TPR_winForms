@@ -74,6 +74,7 @@
             numericUpDown_phaseID.Size = new Size(162, 23);
             numericUpDown_phaseID.TabIndex = 5;
             numericUpDown_phaseID.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown_phaseID.ValueChanged += numericUpDown_phaseID_ValueChanged;
             // 
             // label_
             // 
@@ -83,7 +84,6 @@
             label_.Size = new Size(48, 15);
             label_.TabIndex = 6;
             label_.Text = "Этап №";
-            label_.Visible = false;
             // 
             // label1
             // 
@@ -93,7 +93,6 @@
             label1.Size = new Size(69, 15);
             label1.TabIndex = 7;
             label1.Text = "Таблица №";
-            label1.Visible = false;
             // 
             // Form3
             // 

@@ -15,20 +15,23 @@ namespace Lab4TPR_winForms
     public partial class Form3 : Form
     {
         public DataSet datasetResult;
+        int curPhase;
         //public DataTable datasetResult;
 
         public Form3()
         {
             InitializeComponent();
             datasetResult = new DataSet();
+            curPhase = 1;
         }
         public Form3(DataSet dataset)
         {
             InitializeComponent();
             this.datasetResult = dataset;
+            curPhase = 1;
 
             int tableID_maximum = 0;
-            while (datasetResult.Tables.Contains("phase1_" + (tableID_maximum+1).ToString()))
+            while (datasetResult.Tables.Contains("phase1_" + (tableID_maximum + 1).ToString()))
             {
                 tableID_maximum++;
             }
@@ -52,7 +55,13 @@ namespace Lab4TPR_winForms
 
         private void numericUpDown_tableID_ValueChanged(object sender, EventArgs e)
         {
-            dataGridView_results.DataSource = datasetResult.Tables["phase1_" + numericUpDown_tableID.Value.ToString()];
+            dataGridView_results.DataSource = datasetResult.Tables["phase" + curPhase.ToString() + "_" + numericUpDown_tableID.Value.ToString()];
+        }
+
+        private void numericUpDown_phaseID_ValueChanged(object sender, EventArgs e)
+        {
+            curPhase = Convert.ToInt32(numericUpDown_phaseID.Value);
+            numericUpDown_tableID_ValueChanged(sender, e);
         }
     }
 }
